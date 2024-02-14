@@ -14,6 +14,7 @@ import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import Tiles from './Tiles'
 import Navbar from './Navbar'
 
+
 const Homepage = () => {
   const navigate = useNavigate()
   const [isDialogOpen, setDialogOpen] = React.useState(false);
