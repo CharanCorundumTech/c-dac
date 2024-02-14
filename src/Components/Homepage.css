@@ -65,7 +65,7 @@
     /* justify-content: space-between; */
     gap: 15px;
     flex-wrap: wrap;
-    margin-top: 1rem;
+    margin-top: 0rem;
     padding: 10px;
 }   
 .cards{

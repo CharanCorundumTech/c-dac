@@ -1,8 +1,9 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Dialog, DialogActions } from '@mui/material'
+import { Button, CircularProgress, Dialog, DialogActions } from '@mui/material'
 import Reportpage from './Reportpage'
 import FlagPage from './FlagPage'
+import axios from 'axios'
 
 const ApprovalManagerDashboard = () => {
     const navigate = useNavigate()
@@ -13,6 +14,8 @@ const ApprovalManagerDashboard = () => {
   const [user_handle,setUser_handle]=useState('')
   const [isDialogOpen, setDialogOpen] = React.useState(false);
   const [dashboardData,setDashboardData]=useState('')
+  const [carddata,setCardData]=useState([])
+
 
 
   const viewFunction =(index)=>{
@@ -37,26 +40,59 @@ const ApprovalManagerDashboard = () => {
     // setMessageIndex(0);
   };
   const [open,setopen]=useState(false)
-  const flagFunction = ()=>{
+  const [postid,setPostid]=useState('')
+  const flagFunction = (index)=>{
     setopen(true)
+    setPostid(carddata[index].postId)
+    console.log(carddata[index].postId)
 
   }
 
-  useEffect(() => {
+  const [isLoading, setIsLoading] = React.useState(true);
+
+  useEffect(()=>{
+    setTimeout(() => {
+      fetchData()
+    }, 2000);
     const fetchData = async () => {
-        try {
-            const response = await axios.get('apilink');
-            
-            console.log(response.data);
-            
-        } catch (error) {
-            console.error('Error fetching data:', error);
-        }
-    };
+    const token = localStorage.getItem('token')
+    let num=0
+    // axios.get(`http://13.233.150.43:5000//getAllData?page=${num}`, {
+  axios.get(`http://13.233.150.43:5000//getAllData?page=${num}`, {
+      headers: {
+        "Authorization": token, // Make sure to replace 'Token' with the actual token value
+      }
+    })
+    .then((response)=>{
+      console.log(response)
+      setCardData(response.data)
+      setIsLoading(false)
 
-    fetchData();
+    }).catch((error)=>{
+      console.log(error)
 
-}, []);
+    })
+}
+fetchData()
+  },[])
+
+if (isLoading) {
+  return (
+    <div className='loader-container' style={{ marginTop: "0rem",display:'flex',justifyContent:"center",alignItems:"center",height:"300px",width:"80rem",backgroundColor:"" }}>
+      <h3 style={{ marginTop: "0rem" }}>Loading....</h3> <CircularProgress />
+    </div>
+  );
+}
+
+if (carddata.length === 0) {
+  return (
+    // <div>
+    <div className='loader-container' style={{ marginTop: "0rem",display:'flex',justifyContent:"center",alignItems:"center",height:"300px",width:"80rem",backgroundColor:"" }}>
+
+      <h3 style={{ marginTop: "5rem" }}>No data to show</h3>
+    </div>
+  );
+}
 
   const dummydata=[
     {
@@ -142,7 +178,7 @@ const ApprovalManagerDashboard = () => {
   }
 ]
   return (
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"5rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"6rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
 showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
         }
@@ -151,17 +187,17 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
       Back
     </Button>
         </div> */}
-        <div className='maindata_div' style={{backgroundColor:"#000032"}}>
+        <div className='maindata_div' style={{backgroundColor:"#000032",width:"78.2rem"}}>
       {
-        dummydata.map((items,index)=>(
+        carddata.map((items,index)=>(
           <>
-          <div className='cards'>
-            <p style={{fontWeight:"500"}}><b>POST : </b>{items['Post Title']}</p>
-            <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.Source}</p>
-            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.Username}</p>
+          <div className='cards' id={index}>
+            <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
+            <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
+            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 26) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
             <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
-            <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.RiskScore}</p>
+            <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
 
 
 
@@ -176,9 +212,9 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
             <div style={{display:"flex",justifyContent:"space-between",gap:"10px",marginRight:"20px"}}>
       {/* <p><b>SOURCE LINK : </b><a href='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D'> Post</a></p> */}
 
-            <button className='upload_btn'><b><a id='hyperlink' href={items.Link} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
+            <button className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
             <button className='card_btns' onClick={() => viewFunction(index)}><b>View</b></button>
-            <button className='card_btns_flag' onClick={flagFunction}><b>Flag For Investigation</b></button>
+            <button className='card_btns_flag' onClick={()=>{flagFunction(index)}}><b>Flag For Investigation</b></button>
             </div>
 
           </div>
@@ -191,8 +227,8 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
       maxWidth="xl"  // Adjust the width here
        PaperProps={{
          style: {
-           width:'100%',
-           height: '100%',
+            width:'40%',
+          height: '80%',
            display:"flex",
            justifyContent:"center",alignItems:"center"
           //  backgroundColor:"#000032"  
@@ -205,7 +241,7 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
       Close
     </Button>
   </DialogActions>
-          <FlagPage />
+          <FlagPage id={postid} />
     
   {/* <div style={{height:"100%",width:"100%",display:"flex",justifyContent:"center",alignItems:"center"}}>
      <b style={{fontSize:"20px"}}>Link:-</b><input type='text' id='link_input' placeholder='Paste link...' style={{height:"50px",width:"500px"}}/>

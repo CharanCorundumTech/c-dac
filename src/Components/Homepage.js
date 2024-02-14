@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Homepage.css'
 import Reportpage from './Reportpage'
 import { useNavigate } from 'react-router-dom'
@@ -13,12 +13,33 @@ import DatasetIcon from '@mui/icons-material/Dataset';
 import FlagCircleIcon from '@mui/icons-material/FlagCircle';
 import Tiles from './Tiles'
 import Navbar from './Navbar'
-
+import axios from 'axios'
+import ApprovalManagerDashboard from './ApprovalManagerDashboard'
+import ReportingManagerDashboard from './ReportingManagerDashboard'
+import ReviewManager from './ReviewManager'
 
 const Homepage = () => {
   const navigate = useNavigate()
   const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [carddata,setCardData]=useState()
 
+
+  useEffect(()=>{
+    const token = localStorage.getItem('token')
+    let num=0
+    axios.get(`http://13.233.150.43:5000/getAllData?page=${num}`, {
+      headers: {
+        Authorization: token, // Make sure to replace 'Token' with the actual token value
+      }
+    })
+    .then((response)=>{
+      console.log(response)
+      setCardData(response.data)
+    }).catch((error)=>{
+      console.log(error)
+
+    })
+  },[])
 
 
 
@@ -203,19 +224,6 @@ const Homepage = () => {
     "transcription": " \u0905\u0927\u093f\u092f\u0928 \u0905\u0926\u094d\u0927\u093f\u0915\u094d\u091c\u0940  \u090f\u0915 \u0938\u0935\u0930\u094d\u0923\u093f\u092e \u092a\u0932 \u0925\u093e\u0964 \u0914\u0930 \u0909\u0938 \u0938\u0935\u0930\u094d\u0923\u093f\u092e \u092a\u0932 \u0915\u0947 \u092b\u0915\u0921\u093e\u0930 \u0907\u0938 \u0938\u0926\u0928 \u0915\u0947 \u0938\u092d\u0940 \u0938\u0926\u0938 \u0939\u0948\u0902\u0964 \u0938\u092d\u0940 \u0926\u0932 \u0915\u0947 \u0938\u0926\u0938 \u0939\u0948\u0902\u0964 \u0938\u092d\u0940 \u0926\u0932 \u0915\u0947 \u0928\u0947\u0924\u093e \u092d\u0940 \u0939\u0948\u0902\u0964 \u0938\u0926\u0928 \u092a\u0947 \u0913 \u092f\u093e \u092d\u093e\u0925\u0926\u0928 \u0915\u0947 \u092c\u0939\u093e\u0930 \u0913, \u092a\u0930 \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0926\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\u0925\u093e\u0935\u093e\u0907\u0902\u0917\u0947 \u0932\u093f\u090f \u092a\u0930\u094d\ufffd  \u092c\u0947\u092c\u0940 \u0909\u0924\u0928\u0947 \u0939\u0940 \u0939\u0915\u094d\u0921\u093e\u0930 \u0939\u0948\u0902\u0964 \u0914\u0930 \u0907\u0938\u0932\u093f\u090f \u092e\u0948\u0902 \u0906\u091c \u0906\u092a\u0915\u0947 \u092e\u093e\u0927\u094d\u092f\u092e \u0938\u0947 \u0907\u0938 \u092c\u0939\u0941\u0924 \u092e\u0939\u0924\u0941\u092a\u0942\u0928 \u0928\u093f\u0928\u0947 \u092e\u0947\u0902 \u0914\u0930 \u0926\u0947\u0936 \u0915\u0940 \u092e\u093e\u0924\u094d\u0930\u0942 \u0936\u0915\u094d\u0924\u093f \u092e\u0947\u0902 \u0928\u0939\u0940\u0902 \u0909\u0930\u094d\u091c\u093e \u092c\u0930\u0928\u0947 \u092e\u0947\u0902\u0964 \u092f\u0947 \u0915\u0932 \u0915\u093e \u0928\u093f\u0930\u094d\u0923\u093e \u0939\u0948\u0902\u0964 \u0914\u0930 \u0906\u091c \u0938\u094d\u0930\u093e\u091c \u0938\u092c\u093e \u0915\u0947 \u092c\u093e\u091c \u0928\u093f\u0930\u094d\u0923\u093e \u0939\u0948\u0902\u0964 \u0905\u092a\u0928\u0947 \u092a\u094d\u0930\u093e\u091c \u092a\u094d\u0930\u093e\u091c \u092a\u094d\u0930\u093e\u091c \u092a\u094d\u0930\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u092a\u094d\u0930\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c\u093e\u091c \u0915\u0947 \u092c  \u091c\u092c \u0939\u092e \u0905\u0928\u094d\u0924\u0940\u0928 \u092a\u0922\u093e\u0935 \u092d\u0940 \u092a\u0942\u0930\u093e \u0915\u0930 \u0932\u0947\u0902\u0917\u0947, \u0926\u0947\u0936 \u0915\u0940 \u092e\u093e\u0924\u094d\u0930\u0941 \u0936\u0915\u094d\u0924\u093f \u0915\u093e \u091c\u094b \u092e\u093f\u091c\u093e\u0907\u091c \u092c\u0921\u0932\u0947\u0917\u093e, \u091c\u094b \u092d\u093f\u0938\u094d\u0935\u093e\u0938 \u092a\u0948\u0926\u093e \u0939\u094b\u0917\u093e, \u0935\u094b \u0926\u0947\u0936 \u0915\u094b \u0928\u0939\u0940\u0902 \u0909\u091a\u093e\u0907\u0913 \u092a\u0930 \u0932\u0947 \u091c\u093e\u0928\u0947 \u0935\u093e\u0932\u0940, \u090f\u0915 \u0905\u092a\u0915\u0932\u094d\u092a\u0928\u093f\u092f\u093e \u0905\u092a\u0924\u0940\u0935 \u0936\u0915\u094d\u0924\u093f \u0915\u0930 \u0930\u0941\u092a \u092e\u0947\u0902 \u0909\u092c\u0930\u0947\u0917\u093e, \u092f\u0947 \u092e\u0948\u0902 \u0905\u0928\u0941\u092d\u093e\u0935 \u0915\u0930\u0924\u093e \u0939\u0941\u0906\u0964 \u0914\u0930 \u0907\u0938 \u092a\u0935\u093f\u0924\u094d\u0930 \u0915\u093e\u0930\u094d\u092f \u0915\u094b \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f, \u0905\u092a\u0924\u0940\u0935 \u0936\u0915\u094d\u0924\u093f \u0915\u0930 \u0930\u0941\u092a \u092e\u0947\u0902 \u0909\u092a\u0928\u0947 \u0935\u093e\u0917\u093e, \u092f\u0947 \u092e\u0948\u0902 \u0905\u0928\u0941\u092d\u093e\u0935 \u0915\u0930\u0924\u093e \u0939\u0941\u0906\u0964 \u0914\u0930 \u0907\u0938 \u092a\u0935\u093f\u0924\u094d\u0930 \u0915\u093e\u0930\u094d\u092f \u0915\u094b \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f, \u0905\u092a\u0924\u0940\u0935 \u0936\u0915\u094d\u0924\u093f \u0915\u0930 \u0930\u0941\u092a \u092e\u0947\u0902 \u0909\u092a\u0930\u0947\u0917\u093e, \u092f\u0947 \u092e\u0948\u0902 \u0905\u0928\u0941\u092d\u093e\u0935 \u0915\u0930\u0924\u093e \u0939\u0941\u0906\u0964 \u0914\u0930 \u0907\u0938 \u092a\u0935\u093f\u0924\u094d\u0930 \u0915\u093e\u0930\u094d\u092f \u0915\u094b \u0915\u0930\u0928\u0947  \u0906\u092a \u0938\u092c\u0928\u0947 \u091c\u094b \u092f\u094b\u0917\u0926\u093e\u0928 \u0926\u093f\u092f\u093e \u0939\u0948, \u0938\u092e\u0930\u094d\u0925\u0928 \u0926\u093f\u092f\u093e \u0939\u0948, \u0938\u093e\u0930\u094d\u0925\u0903\u091a \u091a\u0930\u094d\u091a\u093e \u0915\u0940 \u0939\u0948, \u0938\u0926\u0928 \u0915\u0947 \u0928\u0947\u0924\u093e \u0915\u0947 \u0930\u0942\u092a \u092e\u0947\u0902 \u0906\u091c \u0906\u092a \u0938\u092c \u0915\u093e \u092a\u0942\u0930\u0947 \u0926\u093f\u0932 \u0938\u0947, \u0938\u091a\u094d\u091a \u0926\u093f\u0932 \u0938\u0947, \u0906\u0926\u0930\u092a\u0942\u0930\u0935\u0915 \u0905\u092d\u093f\u0928\u0902\u0926\u0928 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0916\u0921\u093c\u093e \u0939\u0941\u0906 \u0939\u0942\u0902, \u0927\u0928\u094d\u0926\u093f\u0935\u093e\u0926 \u0915\u0930\u0928\u0947 \u0915\u0947 \u0932\u093f\u090f \u0916\u0921\u093c\u093e \u0939\u0942\u0902, \u0928\u092e\u0936\u094d\u0915\u093e\u0930\u0964"
   }
   ]
-  // const [dummy,setDummy]=useState('')
-
-
-  const uploadfunction = (index) => {
-    // setDummy(index)
-    // navigate('/reportpage')
-    setDialogOpen(true)
-
-    // <Reportpage/>
-
-    // alert("hi")u
-
-  }
 
   const [showTiles, setShowTiles] = useState(false)
   const [showgraphs, setShowgraphs] = useState(true)
@@ -263,6 +271,7 @@ const Homepage = () => {
 
 
   }
+  const role=localStorage.getItem('role')
 
   return (
     <>
@@ -281,7 +290,7 @@ const Homepage = () => {
               {/* <button className='upload_btn' onClick={()=>uploadfunction()} ><b>Upload Link</b></button> */}
             </div>
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <h4 style={{ marginLeft: "5px",color:'Darkblue' }}>Dashboard</h4> <WidgetsIcon />
+              <h4 style={{ marginLeft: "10px",color:'Darkblue' }}>Dashboard</h4> <WidgetsIcon />
 
             </div>
             <div style={{ display: "flex", gap: "10px" }}>
@@ -297,9 +306,13 @@ const Homepage = () => {
                   marginLeft: '5px',
                   backgroundColor: "white",
                   boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)",
-                  height: "85.5vh", width: "250px"
+                  height: "85.5vh", width: "250px",
+                  paddingTop:"0.5rem"
                 }}>
-                  <div className='sidebar_links' onClick={viewGraphFunction} style={{ backgroundColor: showgraphs ? "#6367f0" : "white",color: showgraphs ? "white" : "black",marginTop:"0.5rem"}}> <GraphicEqIcon /> Analytics </div>
+                  {
+                  role !=='user' && <div className='sidebar_links' onClick={viewGraphFunction} style={{ backgroundColor: showgraphs ? "#6367f0" : "white",color: showgraphs ? "white" : "black"}}> <GraphicEqIcon /> Analytics </div>
+                   
+                  }
                   <div className='sidebar_links' onClick={viewDataFunction} style={{ backgroundColor: showTiles ? "#6367f0" : "white",color: showTiles ? "white" : "black" }}> <DatasetIcon /> View Data </div>
                   <div className='sidebar_links' onClick={viewReportFunction} style={{ backgroundColor: showReports ? "#6367f0" : "white",color: showReports ? "white" : "black" }}> <FlagCircleIcon /> Reports </div>
 
@@ -309,7 +322,17 @@ const Homepage = () => {
 
               <div style={{ height: "500px", width: '100%', borderRadius: "10px", display: 'flex', gap: "5rem", alignItems: "center", backgroundColor: "white", boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)" }}>
                 {
-                  showgraphs &&
+                  
+                  // showgraphs &&
+                  // <>
+                  //   <div style={{ backgroundColor: "", width: "800px" }} >
+                  //     <Graph />
+                  //   </div>
+                  //   <div style={{ backgroundColor: "" }} >
+                  //     <Piechart />
+                  //   </div>
+                  // </>
+                  showgraphs && role !=='user' &&
                   <>
                     <div style={{ backgroundColor: "", width: "800px" }} >
                       <Graph />
@@ -321,8 +344,23 @@ const Homepage = () => {
 
                 }
                 {
-                  showTiles && <div> <Tiles /> </div>
+                  showTiles  && role==='user' && <div> <Tiles /> </div>
+                  // showTiles &&  userrole === 'user' && <div> <Tiles /> </div>    thsi has to be there based on the role we will render things 
                 }
+
+                  {
+                    showTiles  && role==='reportingManager' && <div> <ReportingManagerDashboard/> </div>
+                  } 
+
+                  {
+                    showTiles  && role==='reviewingManager' && <div> <ReviewManager/> </div>
+                  } 
+                  {
+                   showTiles  && role==='approvingManager' && <div> <ApprovalManagerDashboard/> </div>
+                  }
+                  {
+                    showReports && <div style={{width:"100%",display:"flex",justifyContent:"center"}}> <h4>No Data To Show</h4> </div>
+                  } 
 
               </div>
             </div>

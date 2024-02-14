@@ -34,8 +34,8 @@ function App() {
     // <Router>
       <div className="App">
         <Routes>
-          {/* <Route path="/" element={<Signin />} /> */}
-          <Route path="/" element={<Homepage />} />
+          <Route path="/" element={<Signin />} />
+          {/* <Route path="/" element={<Homepage />} /> */}
           <Route path="/dashboard" element={<Homepage />} />
           <Route path="/reportpage" element={<Reportpage />} />
           <Route path="/forgot_pwd" element={<Reset_pass />} />

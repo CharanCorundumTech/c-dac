@@ -1,5 +1,5 @@
 const apiConfig = {
-    baseUrl: 'http://10.1.1.15:5000',
+    baseUrl: 'http://13.233.150.43:5000/',
     localHost :'http://127.0.0.1:5000'
    
   };

@@ -51,18 +51,20 @@ const Signin = () => {
           setLoginError(false);
           setToggleLoginLoader(true);
           const payload={
-            "email":email_is,
+            "username":email_is,
             "password":password_is
           }
           console.log(password_is)
     console.log(email_is)
-          const response = await axios.post('http://192.168.145.72:8000/login', payload);
+          const response = await axios.post('http://13.233.150.43:5000/login', payload);
           const responseData = response.data;
           console.log("response=====",responseData)
           const userToken = responseData.token;
           console.log(userToken)
           try {
-            localStorage.setItem('token', userToken);
+            localStorage.setItem('token', responseData.token);
+            localStorage.setItem('role', responseData.role);
+            localStorage.setItem('username', responseData.username);
          } catch (error) {
             console.error("LocalStorage Error:", error);
          }
@@ -70,9 +72,13 @@ const Signin = () => {
           console.log(response.data)
           // Redirect based on userrole
           if (userRole === 'user') {
-            navigate('/user-approval-dashboard');
-          } else if (userRole === 'admin') {
-            navigate('/home');
+            navigate('/dashboard');
+          } else if (userRole === 'reviewingManager') {
+            navigate('/dashboard');
+          }else if (userRole === 'reportingManager') {
+            navigate('/dashboard');
+          }else if (userRole === 'approvingManager') {
+            navigate('/dashboard');
           } else {
             showToast('Invalid user role');
           }

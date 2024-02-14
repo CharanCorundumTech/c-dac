@@ -60,8 +60,9 @@ const toggleContent = () => {
   return (
     <>
     <div style={{minHeight:"100vh", padding:"10px",backgroundColor:"#000032"}}>
-      <button className='back_btn' onClick={()=>navigate('/')}>Close</button>
-      <h3 style={{color:"white"}}>Report Page</h3>
+      <button className='back_btn' onClick={()=>navigate('/dashboard')}>Close</button>
+      <div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
+      <h3 style={{color:"white"}}>Report </h3>
 
     <div style={{border:"1px solid black",backgroundColor:"white",padding:"20px",borderRadius:"10px",width:"700px"}}>
     <div style={{fontWeight:"500"}}>
@@ -118,6 +119,7 @@ const toggleContent = () => {
       <button className='report_btns2'>FLAG</button>
       <button className='report_btns2'>DISMISS</button>
       <button className='report_btns2'>EDIT BEFORE FLAGGING</button>
+      </div>
       </div>
       </div>
       </div>
