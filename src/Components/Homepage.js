@@ -214,7 +214,10 @@ const Homepage = () => {
                     role !=='user' &&   <div className='sidebar_links' onClick={viewReportFunction} style={{ backgroundColor: showReports ? "#6367f0" : "white",color: showReports ? "white" : "black" }}> <FlagCircleIcon /> Rejected Reports </div>
                 }
                   {
-                  <div className='sidebar_links' onClick={viewFlaggedFunction} style={{ backgroundColor: showflaged ? "#6367f0" : "white",color: showflaged ? "white" : "black" }}> <FlagCircleIcon /> Flagged Reports </div> 
+                  role === 'user' && <div className='sidebar_links' onClick={viewFlaggedFunction} style={{ backgroundColor: showflaged ? "#6367f0" : "white",color: showflaged ? "white" : "black" }}> <FlagCircleIcon /> Flagged Reports </div> 
+                  }
+                  {
+                  role !== 'user' && <div className='sidebar_links' onClick={viewFlaggedFunction} style={{ backgroundColor: showflaged ? "#6367f0" : "white",color: showflaged ? "white" : "black" }}> <FlagCircleIcon /> Flagged Reports </div> 
                   }
                
                   
@@ -254,7 +257,7 @@ const Homepage = () => {
                    showTiles  && role==='approvingManager' && <div> <ApprovalManagerDashboard/> </div>
                   }
                   {
-                    showReports && <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem",overflow:"scroll"}}>
+                    (showReports || showflaged) && <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem",overflow:"scroll"}}>
                       {
         appdata.map((items,index)=>(
           <>
