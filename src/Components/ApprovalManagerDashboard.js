@@ -4,6 +4,11 @@ import { Button, CircularProgress, Dialog, DialogActions } from '@mui/material'
 import Reportpage from './Reportpage'
 import FlagPage from './FlagPage'
 import axios from 'axios'
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import html2pdf from 'html2pdf.js';
+
 
 const ApprovalManagerDashboard = () => {
     const navigate = useNavigate()
@@ -15,17 +20,20 @@ const ApprovalManagerDashboard = () => {
   const [isDialogOpen, setDialogOpen] = React.useState(false);
   const [dashboardData,setDashboardData]=useState('')
   const [carddata,setCardData]=useState([])
+  const [info,setInfo]=useState('')
+
 
 
 
   const viewFunction =(index)=>{
+    setInfo(carddata[index])
     
     setShowReport(true)
-    setSource(dummydata[index].source)
+    // setSource(dummydata[index].source)
     // setPost_title(dummydata[index].post)
-    setPost_title(dummydata[index].post)
-    setUser_handle(dummydata[index].user_handle)
-    navigate('/reportpage')
+    // setPost_title(dummydata[index].post)
+    // setUser_handle(dummydata[index].user_handle)
+    // navigate('/reportpage')
     // console.log(items)
     // console.log({ state: { data: items } })
     // navigate('/reportpage')
@@ -113,6 +121,87 @@ if (carddata.length === 0) {
     
   );
 }
+const downloadFunction =(index)=>{
+
+  const generatePDF = (newjson) => {
+    const content = `
+      <div style={{margin:"20px"}}>
+        <h2>Detailed Report</h2>
+        <div style={{margin:"10px"}}>
+          <table border="1">
+            <tbody>
+              ${Object.entries(newjson)
+                .map(([key, value]) => `
+                  <tr>
+                    <td><b>${key}</b></td>
+                    <td>${value}</td>
+                  </tr>
+                `)
+                .join('')}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    `;
+  
+    html2pdf(content, {
+      filename: 'report.pdf',
+      image: { type: 'jpeg', quality: 0.98 },
+      html2canvas: { dpi: 192, letterRendering: true },
+      jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+    });
+  };
+
+
+
+
+    const token = localStorage.getItem('token')
+    try {
+      console.log(carddata[index])
+      const json=carddata[index]
+      const newjson={
+        "_id":json._id,
+        "dateTime":json.dateTime,
+        "postContent":json.postContent,
+        "platform":json.platform,
+        "postId":json.postId,
+        "postLink":json.postLink,
+        "postOwnerId":json.postOwnerId,
+        "postOwnerLink":json.postOwnerLink,
+        "postOwnerName":json.postOwnerName,
+        "postOwnerType":json.postOwnerType,
+        "postType":json.postType,
+        "reason":json.reason,
+        "screenshotLink":json.screenshotLink,
+        "comments":json.interactions.comments,
+        "likes":json.interactions.likes,
+        "rekoos":json.interactions.rekoos,
+        "retweets":json.interactions.retweets,
+        "shares":json.interactions.shares,
+        "views":json.interactions.views,
+        "targetData":json.targetData,
+        "targetId":json.targetId,
+        "sentiment":json.sentiment.label,
+        "isShortlisted":json.isShortlisted,
+        "tags":json.tags,
+      }
+      generatePDF(newjson)
+    //   const formattedJson = JSON.stringify(json, null, 4);
+    //   console.log(formattedJson)
+
+    // // Create a new jsPDF instance
+    // const doc = new jsPDF();
+    // doc.text(20, 20, formattedJson);
+
+    // // Save the PDF
+    // doc.save("output.pdf");
+  
+    } catch (error) {
+      console.error('Error downloading PDF:', error);
+    }
+ 
+
+}
 
   const dummydata=[
     {
@@ -199,43 +288,36 @@ if (carddata.length === 0) {
 ]
   return (
     <>
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    
+    <div className='hidescrollbars' style={{backgroundColor:"",marginTop:"2rem",borderRadius:"10px",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
-showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
+showReport && <Reportpage info={info} />
         }
         {/* <div style={{backgroundColor:"#000032"}}>
         <Button id='close_btn' style={{marginTop:"1rem",marginLeft:"1rem",backgroundColor:"white",color:"black"}}  onClick={()=>{navigate('/')}}>
       Back
     </Button>
         </div> */}
-        <div className='maindata_div' style={{backgroundColor:"#000032",width:"78.2rem"}}>
+
+        <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem"}}>
       {
+        !showReport && 
         carddata.map((items,index)=>(
           <>
           <div className='cards' id={index}>
             <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
-            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 26) + '...' : items['postOwnerName']}</p>
+            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
             <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
 
-
-
-
-
-            {/* <p style={{fontWeight:"500"}}>POST:<b>{items.original_filename}</b></p>
-            <p style={{fontWeight:"500"}}>SOURCE:<b>Youtube</b></p>
-            <p style={{fontWeight:"500"}}>USRER HANDLE:<b>NDTV profit</b></p>
-            <p style={{fontWeight:"500"}}>CONTAINS VIDEO:<b>yes</b></p>
-            <p style={{fontWeight:"500"}}>VIOLATIONS:<b>none</b></p>
-            <p style={{fontWeight:"500"}}>RISK SCORE:<b>20/100</b></p> */}
             <div style={{display:"flex",justifyContent:"space-between",gap:"10px",marginRight:"20px"}}>
       {/* <p><b>SOURCE LINK : </b><a href='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D'> Post</a></p> */}
 
             <button className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
             <button className='card_btns' onClick={() => viewFunction(index)}><b>View</b></button>
-            <button className='card_btns_flag' onClick={()=>{flagFunction(index)}}><b>Flag For Investigation</b></button>
+            <button className='card_btns_flag' onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
             </div>
 
           </div>

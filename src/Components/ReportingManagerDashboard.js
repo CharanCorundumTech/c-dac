@@ -18,10 +18,14 @@ const ReportingManagerDashboard = () => {
   const [num,setNum]=useState(0)
   const [currentPage, setCurrentPage] = useState(1);
   const [numPages, setNumPages] = useState(1);
+  const [info,setInfo]=useState('')
+
 
 
 
   const viewFunction =(index)=>{
+    setInfo(carddata[index])
+
     
     setShowReport(true)
     // setSource(dummydata[index].source)
@@ -71,9 +75,27 @@ const fetchData = async (page) => {
       console.log(error)
     }
   }
+  const [appdata,setappData]=useState([])
+  const fetchappdata = async (page) => {
+  const token = localStorage.getItem('token')
+    axios.get(`http://13.233.150.43:5000/getAllRejectedData?page=${page}`, {
+      headers: {
+        Authorization: token, // Make sure to replace 'Token' with the actual token value
+      }
+    })
+    .then((response)=>{
+      console.log(response)
+      setappData(response.data)
+    // setShowreports(false)
 
+    }).catch((error)=>{
+      console.log(error)
+
+    })
+  }
   useEffect(() => {
     fetchData(currentPage);
+    fetchappdata(currentPage)
   }, [currentPage]);
 
 if (isLoading) {
@@ -96,24 +118,25 @@ if (carddata.length === 0) {
 
   return (
     <>
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    <div className='hidescrollbars' style={{backgroundColor:"",marginTop:"2rem",borderRadius:"10px",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
-showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
+showReport && <Reportpage info={info} />
         }
         {/* <div style={{backgroundColor:"#000032"}}>
         <Button id='close_btn' style={{marginTop:"1rem",marginLeft:"1rem",backgroundColor:"white",color:"black"}}  onClick={()=>{navigate('/')}}>
       Back
     </Button>
         </div> */}
-        <div className='maindata_div' style={{backgroundColor:"#000032",width:"78.2rem"}}>
+
+        <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem"}}>
       {
+        !showReport && 
         carddata.map((items,index)=>(
           <>
-          <div className='cards'>
-          <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
+          <div className='cards' id={index}>
+            <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
-            {/* <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName}</p> */}
-            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 26) + '...' : items['postOwnerName']}</p>
+            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
             <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
@@ -141,6 +164,41 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
 
           ))
       }
+
+
+{
+  showReport &&
+        appdata.map((items,index)=>(
+          <>
+          <div className='cards' style={{minHeight:'50vh'}} id={index}>
+            <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
+            <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
+            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName}</p>
+            <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
+            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
+            <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
+            <div style={{display:"flex",justifyContent:"space-between",gap:"10px",marginRight:"20px"}}>
+      {/* <p><b>SOURCE LINK : </b><a href='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D'> Post</a></p> */}
+            <div style={{display:'flex', flexDirection:'column', gap:'0.4rem'}}>
+              <div>
+              <button style={{textAlign:'left'}} className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
+
+              </div>
+            { items.Status===1 && <p style={{backgroundColor:'red',padding:'0.3rem', borderRadius:'6px', fontWeight:'bold'}}>FLAGGED BY USER</p>}
+            { items.Status===2 && <p style={{backgroundColor:'red',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}} >FLAGGED BY REPORTING MANAGER</p>}
+            { items.Status===3 && <p style={{backgroundColor:'red',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>FLAGGED BY REVIEWING MANAGER</p>}
+            { items.Status===4 && <p style={{backgroundColor:'red',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>FLAGGED BY APPROVAL MANAGER</p>}
+            { items.Status===-2 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY REPORTING MANAGER</p>}
+            { items.Status===-3 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY REVIEWING MANAGER</p>}
+            { items.Status===-4 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY APPROVING MANAGER</p>}
+            </div>
+            </div>
+          </div>
+          </>
+
+          ))
+      }
+
           <Dialog open={open} onClose={handleCloseDialog}
       fullWidth
       maxWidth="xl"  // Adjust the width here
@@ -173,7 +231,7 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
     </div>
    
     </div>
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem' }}>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem',position:"sticky" }}>
       
       <Button
         style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}

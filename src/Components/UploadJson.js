@@ -22,7 +22,8 @@ const UploadJson = () => {
         },
       });
 
-      console.log(response.data); // Handle response from the backend
+      console.log(response.data)
+      alert(`File Uploaded!`); // Handle response from the backend
     } catch (error) {
       console.error('Error uploading file:', error);
     }
@@ -31,7 +32,7 @@ const UploadJson = () => {
   return (
     <div style={{ height: '100%', width: '1000px', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
       <div style={{ height: '400px', width: '500px',display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"",gap:"2rem", backgroundColor: '', borderRadius: '5px', padding: '10px' }}>
-        <h4>Upload Json Data</h4>
+        <h4>Upload JSON Data</h4>
         <div>
         <input type='file' onChange={handleFileChange}  style={{bodrder:"1px solid black",borderRadius:"10px",backgroundColor:"#fff2de",height:"200px",boxShadow:"0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)"}}/>
         <button onClick={handleSubmit} className='uploadjson_btn' >Upload</button>

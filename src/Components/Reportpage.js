@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import './Reportpage.css'
 import demo from '../Assets/demo2.jpg'
 import { useNavigate } from 'react-router-dom';
-const Reportpage = ({post_title,posted_by,source,source_link,detailed_report_link,people_identified}) => {
+// const Reportpage = ({post_title,posted_by,source,source_link,detailed_report_link,people_identified}) => {
+const Reportpage = (info) => {
+  console.log(info)
   const navigate = useNavigate()
 
   // const CC= props.location.state.state.data || {};
-  console.log(source)
-  console.log(post_title)
+  // console.log(source)
+  // console.log(post_title)
   const static_data=[{
     "_id": {
         "$oid": "65a4da1e12085c2fd9a6c5bc"
@@ -60,45 +62,48 @@ const toggleContent = () => {
   return (
     <>
     <div style={{minHeight:"100vh", padding:"10px",backgroundColor:"#000032"}}>
-      <button className='back_btn' onClick={()=>navigate('/dashboard')}>Close</button>
+      <button className='back_btn' onClick={()=>window.location.reload()}>Close</button>
       <div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
       <h3 style={{color:"white"}}>Report </h3>
 
     <div style={{border:"1px solid black",backgroundColor:"white",padding:"20px",borderRadius:"10px",width:"700px"}}>
     <div style={{fontWeight:"500"}}>
       <div style={{height:"200px",width:"300px",marginBottom:"10px",backgroundColor:"grey"}}>
-      <iframe height="200" src={post_link} frameborder="0" allowfullscreen></iframe>
+      <iframe height="200" src={info.info.postLink} frameborder="0" allowfullscreen></iframe>
         {/* <video src='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D' height="200px" alt='demo_image'/> */}
 
       </div>
-      <p><b>POST TITLE : </b>PM Modi's Motion of Thanks in Lok Sabha In Under 10 Minutes</p>
-      <p><b>POSTED BY : </b>NDTV Profit</p>
-      <p><b>SOURCE : </b>Youtube</p>
-      <p><b>SOURCE LINK : </b><a href={post_link} target="_blank" rel="noopener noreferrer">{post_link}</a></p>
+      <p><b>POST TITLE : </b>{info.info.postContent}</p>
+      <p><b>POSTED BY : </b>{info.info.postOwnerName}</p>
+      <p><b>POST OWNER ID : </b>{info.info.postOwnerId}</p>
+      <p><b>SOURCE : </b>{info.info.platform}</p>
+      <p><b>SOURCE LINK : </b><a href={info.info.postLink} target="_blank" rel="noopener noreferrer">{info.info.postLink}</a></p>
       {/* <p><b><u>DETAILED REPORT</u></b><a href='http://127.0.0.1:3000/detailed_report'></a><button onClick={toggleContent} style={{border:"none",backgroundColor:"#16437e",color:"white",borderRadius:"5px",marginLeft:"10px"}}><b>{isContentVisible ? 'Hide' : 'Show'}</b></button></p> */}
       <p><b><u>DETAILED REPORT</u></b><button onClick={toggleContent} style={{border:"none",backgroundColor:"#16437e",color:"white",borderRadius:"5px",marginLeft:"10px"}}><b>{isContentVisible ? 'Hide' : 'Show'}</b></button></p>
       {isContentVisible && (
       <div style={{marginLeft:"20px",backgroundColor:"lightgrey",padding:"10px"}}>
-      <p><b>FILE ID : </b>{filed_id}</p>
+      <p><b>FILE ID : </b>{info.info.postId}</p>
       <p><b>FILE NAME : </b>{originalFilename}</p>
-      <p><b>FILE TYPE : </b>{filed_type}</p>
+      <p><b>FILE TYPE : </b>{info.info.postType}</p>
       {/* <p><b>FILE PATH :</b>{path}</p> */}
-      <p><b>UPLOAD TIME : </b>{upload_time.$date}</p>
-      <p><b>FORMATED DATE : </b>{formatted_date}</p>
-      <p><b>FORMATED TIME : </b>{formatted_time}</p>
-      <p><u><b>EVENTS DETECTED : </b></u></p>
-      <div style={{marginLeft:"20px"}}><p><b>VIOLENCE_AGAINST_HUMANS : </b>{Violence_Against_Humans ? 'True' : 'False'}</p>
-      <p><b>VIOLENCE_AGAINST_ANIMALS : </b>{Violence_Against_Animals ? 'True' : 'False'}</p>
-      <p><b>NSFW :</b>{NSFW ? 'True' : 'False'}</p>
-      <p><b>PROTESTS : </b>{Protests ? 'True' : 'False'}</p>
-      <p><b>NATURAL CALAMITIES : </b>{Natural_Calamities ? 'True' : 'False'}</p>
+      <p><b>UPLOAD TIME : </b>{info.info.dateTime}</p>
+      {/* <p><b>IS SORTLISTED : </b>{formatted_date}</p> */}
+      <p><b>IS SORTLISTED : </b>{info.info.isShortlisted ? "True":"False"}</p>
+      <p><u><b>INTERACIONS : </b></u></p>
+      <div style={{marginLeft:"20px"}}>
+        {/* <p><b>VIOLENCE_AGAINST_HUMANS : </b>{Violence_Against_Humans ? 'True' : 'False'}</p> */}
+      <p><b>COMMENTS : </b>{info.info.interactions.comments}</p>
+      <p><b>LIKES :</b>{info.info.interactions.likes}</p>
+      <p><b>REKOOS : </b>{info.info.interactions.rekoos}</p>
+      <p><b>RETWEETS : </b>{info.info.interactions.retweets}</p>
+      <p><b>SHARES : </b>{info.info.interactions.shares}</p>
+      <p><b>VIEWS : </b>{info.info.interactions.views}</p>
       </div>
       <p><b>SPEAKERS DETECTED : </b>{speakers}</p>
       <p><b>FACE DETECTED : </b>{speakers}</p>
       {/* <p><b style={{color:"red"}}>TRANSCRIPTION : </b><span style={{color:"#052a44",fontWeight:"bold"}}>{transcription}</span></p> */}
       <p><b style={{color:"red"}}>TRANSCRIPTION : </b><span style={{color:"#052a44",fontWeight:"bold"}}>
-      आदरणीय अध्यक्षजी, एक सवर्णिम पल था। और उस सवर्णिम पल के फकडार इस सदन के सभी सदस हैं। सभी दल के सदस हैं। सभी दल के नेता भी हैं। सदन पे ओ या भाथदन के बहार ओ, पर पर्थावादाइंगे लिए पर्थावाइंगे लिए पर्थावाइंगे लिए पर् उतने ही हैं। और इसलिए मैं आज आपके माध्यम से इस बहुत महत्वपूर्ण निर्णय में और देश की मात्र शक्ति में नहीं उर्जा बरने में। ये कल का निर्णय हैं। और आज राज्य सभा के निर्णय हैं। अपने प्रा बाज के ब जब हम अंतिम पढाव भी पूरा कर लेंगे, देश की मात्र शक्ति का जो मिजाज बडलेगा, जो विश्वास पैदा होगा, वो देश को नहीं उचाइओ पर ले जाने वाली, एक अपकल्पनिय अपतीव शक्ति कर रुप में उबरेगा, ये मैं अनुभव करता हु। और इस पवित्र कार्य को करने के लिए, अपतीव शक्ति कर रुप में उपने वागा, ये मैं अनुभव करता हुआ। और इस पवित्र कार्य को करने के लिए, अपतीव शक्ति कर रुप में उभरेगा, ये मैं अनुभव करता हुआ। और इस पवित्र कार्य को करने आप सबने जो योगदान दिया है, समर्थन दिया है, सार्थः चर्चा की है, सदन के नेता के रूप में आज आप सब का पूरे दिल से, सच्च दिल से, आदरपूरवक अभिनंदन करने के लिए खड़ा हुआ हूं, धन्यवाद
-      करने के लिए खड़ा हूं, नमश्कार।
+      Not Available
         </span></p>
       </div>
       )}
@@ -106,14 +111,14 @@ const toggleContent = () => {
 
     </div>
     <div style={{display:"flex",gap:"20px",fontWeight:"500"}}>
-     <p><b>VIOLATIONS : </b> None</p>
+     <p><b>VIOLATIONS : </b> -</p>
      {/* <div style={{display:"flex",gap:"20px",marginBottom:"10px"}}> 
       <button className='report_btns'>PROFANITY</button>
       <button className='report_btns'>VIOLENCE</button>
       <button className='report_btns'>DEEP FAKE</button>
       </div> */}
     </div>
-    <p ><b>RISK SCORE : 20/100</b></p>
+    <p ><b>RISK SCORE : -</b></p>
     
      <div style={{display:"flex",gap:"20px",marginLeft:"30PX",marginTop:"20px"}}> 
       <button className='report_btns2'>FLAG</button>

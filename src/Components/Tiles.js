@@ -13,15 +13,18 @@ const Tiles = () => {
   const [post_title,setPost_title]=useState('')
   const [user_handle,setUser_handle]=useState('')
   const [isDialogOpen, setDialogOpen] = React.useState(false);
+  const [info,setInfo]=useState('')
 
   const viewFunction =(index)=>{
+    setInfo(carddata[index])
+    console.log(carddata[index])
     
     setShowReport(true)
-    setSource(dummydata[index].source)
+    // setSource(dummydata[index].source)
+    // // setPost_title(dummydata[index].post)
     // setPost_title(dummydata[index].post)
-    setPost_title(dummydata[index].post)
-    setUser_handle(dummydata[index].user_handle)
-    navigate('/reportpage')
+    // setUser_handle(dummydata[index].user_handle)
+    // navigate('/reportpage')
     // console.log(items)
     // console.log({ state: { data: items } })
     // navigate('/reportpage')
@@ -172,23 +175,26 @@ if (carddata.length === 0) {
 ]
   return (
     <>
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    
+    <div className='hidescrollbars' style={{backgroundColor:"",marginTop:"2rem",borderRadius:"10px",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
-showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
+showReport && <Reportpage info={info} />
         }
         {/* <div style={{backgroundColor:"#000032"}}>
         <Button id='close_btn' style={{marginTop:"1rem",marginLeft:"1rem",backgroundColor:"white",color:"black"}}  onClick={()=>{navigate('/')}}>
       Back
     </Button>
         </div> */}
-        <div className='maindata_div' style={{backgroundColor:"#000032",width:"78.2rem"}}>
+
+        <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem"}}>
       {
+        !showReport && 
         carddata.map((items,index)=>(
           <>
           <div className='cards' id={index}>
             <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
-            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName}</p>
+            <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
             <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
