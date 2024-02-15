@@ -12,6 +12,7 @@ const UploadJson = () => {
   const handleSubmit = async () => {
     try {
       const formData = new FormData();
+      console.log(selectedFile)
       formData.append('json', selectedFile);
 
       // Replace 'http://example.com/upload' with your backend endpoint

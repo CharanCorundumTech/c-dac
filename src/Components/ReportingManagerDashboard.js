@@ -16,7 +16,7 @@ const ReportingManagerDashboard = () => {
   const [dashboardData,setDashboardData]=useState('')
   const [carddata,setCardData]=useState([])
   const [num,setNum]=useState(0)
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [numPages, setNumPages] = useState(1);
 
 

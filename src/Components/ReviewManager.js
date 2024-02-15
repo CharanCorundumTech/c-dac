@@ -50,7 +50,7 @@ const ReviewManager = () => {
 
   }
   const [isLoading, setIsLoading] = React.useState(true);
-  const [currentPage, setCurrentPage] = useState(0);
+  const [currentPage, setCurrentPage] = useState(1);
   const [numPages, setNumPages] = useState(1);
 
   const fetchData = async (page) => {
