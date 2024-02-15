@@ -15,16 +15,19 @@ const ReportingManagerDashboard = () => {
   const [isDialogOpen, setDialogOpen] = React.useState(false);
   const [dashboardData,setDashboardData]=useState('')
   const [carddata,setCardData]=useState([])
+  const [num,setNum]=useState(0)
+  const [currentPage, setCurrentPage] = useState(0);
+  const [numPages, setNumPages] = useState(1);
 
 
 
   const viewFunction =(index)=>{
     
     setShowReport(true)
-    setSource(dummydata[index].source)
+    // setSource(dummydata[index].source)
+    // // setPost_title(dummydata[index].post)
     // setPost_title(dummydata[index].post)
-    setPost_title(dummydata[index].post)
-    setUser_handle(dummydata[index].user_handle)
+    // setUser_handle(dummydata[index].user_handle)
     navigate('/reportpage')
     // console.log(items)
     // console.log({ state: { data: items } })
@@ -47,117 +50,31 @@ const ReportingManagerDashboard = () => {
     console.log(carddata[index].postId)
 
   }
-  const dummydata=[
-    {
-      "Post Title": "PM Modi's Motion of Thanks \u2026",
-      "Source": "Youtube",
-      "Username": "NDTV Profit",
-      "ContainsVideo": "Yes",
-      "Violations": "None",
-      "RiskScore": 20,
-      "Link": "https://www.youtube.com/embed/JWIFhZsPsRw?autoplay=1&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D"
-  },
-  {
-      "Post Title": "How on earth \u2026",
-      "Source": "X(twitter)",
-      "Username": "@broshnikanta",
-      "ContainsVideo": "Yes",
-      "Violations": 3,
-      "RiskScore": 60,
-      "Link": "https://twitter.com/im_Melo0/status/1747489429835649211"
-  },
-  {
-      "Post Title": "Are Central forces \u2026",
-      "Source": "X(twitter)",
-      "Username": "@im_Melo0",
-      "ContainsVideo": "Yes",
-      "Violations": 4,
-      "RiskScore": 65,
-      "Link": "https://twitter.com/broshnikanta/status/1747491059985510898"
-  },
-  {
-      "Post Title": "RSS \u0914\u0930 BJP  \u2026",
-      "Source": "X(twitter)",
-      "Username": "@Shree42000",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 55,
-      "Link": "https://twitter.com/Shree42000/status/1747454144909393929"
-  },
-  {
-      "Post Title": "Kuki vs Assam Rifles..",
-      "Source": "X(twitter)",
-      "Username": "@nareshchandra_1",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 55,
-      "Link": "https://twitter.com/Shree42000/status/1747454144909393929"
-  },
-  {
-      "Post Title": "Karnataka Minister's Controversial...",
-      "Source": "Youtube",
-      "Username": "India Today",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 60,
-      "Link": "https://youtu.be/UKrwfRHUGMw"
-  },
-  {
-      "Post Title": "Karnataka Minister's Controversial...",
-      "Source": "Youtube",
-      "Username": "India Today",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 60,
-      "Link": "https://youtu.be/UKrwfRHUGMw"
-  },
-  {
-      "Post Title": "Kuki vs Assam Rifles..",
-      "Source": "X(twitter)",
-      "Username": "@nareshchandra_1",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 55,
-      "Link": "https://twitter.com/Shree42000/status/1747454144909393929"
-  },
-  {
-      "Post Title": "Karnataka Minister's Controversial...",
-      "Source": "Youtube",
-      "Username": "India Today",
-      "ContainsVideo": "Yes",
-      "Violations": 2,
-      "RiskScore": 60,
-      "Link": "https://youtu.be/UKrwfRHUGMw"
-  }
-]
+  
 
 const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(()=>{
-    setTimeout(() => {
-      fetchData()
-    }, 2000);
-    const fetchData = async () => {
+const fetchData = async (page) => {
     const token = localStorage.getItem('token')
-    let num=0
-    // axios.get(`http://13.233.150.43:5000//getAllData?page=${num}`, {
-  axios.get(`http://13.233.150.43:5000//getAllData?page=${num}`, {
-      headers: {
-        "Authorization": token, // Make sure to replace 'Token' with the actual token value
-      }
-    })
-    .then((response)=>{
-      console.log(response)
+    try {
+      const response = await axios.get(`http://13.233.150.43:5000//getAllData?page=${page}`, {
+        headers: {
+          "Authorization": token,
+        }
+      });
+      console.log(response.data)
       setCardData(response.data)
       setIsLoading(false)
-
-    }).catch((error)=>{
+      setCurrentPage(page);
+      setNumPages(response.data.numPages);
+    } catch (error) {
       console.log(error)
+    }
+  }
 
-    })
-}
-fetchData()
-  },[])
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
 
 if (isLoading) {
   return (
@@ -178,7 +95,8 @@ if (carddata.length === 0) {
 }
 
   return (
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"6rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    <>
+    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
 showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
         }
@@ -250,10 +168,33 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
   </div>
 
 </Dialog>
-      
+   
 
     </div>
+   
     </div>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem' }}>
+      
+      <Button
+        style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+        variant="contained"
+        disabled={currentPage === 1}
+        onClick={() => fetchData(currentPage - 1)}
+      >
+        Previous
+      </Button>
+      <p style={{paddingLeft:"5px",paddingRight:"5px"}}><b>{currentPage}</b></p>
+      <Button
+        style={{backgroundColor:"lightblue",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+        variant="contained"
+        // style={{ marginLeft: '1rem' }}
+        disabled={currentPage === numPages}
+        onClick={() => fetchData(currentPage + 1)}
+      >
+        Next Page
+      </Button>
+    </div>
+   </>
   )
 }
 

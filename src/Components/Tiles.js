@@ -46,32 +46,29 @@ const Tiles = () => {
 
   const [carddata,setCardData]=useState([])
   const [isLoading, setIsLoading] = React.useState(true);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [numPages, setNumPages] = useState(1);
 
-
-  useEffect(()=>{
-    setTimeout(() => {
-      fetchData()
-    }, 2000);
-    const fetchData = async () => {
+  const fetchData = async (page) => {
     const token = localStorage.getItem('token')
-    let num=0
-    axios.get(`http://127.0.0.1:5000/getAllData?page=${num}`, {
-      headers: {
-        Authorization: token, // Make sure to replace 'Token' with the actual token value
-      }
-    })
-    .then((response)=>{
-      console.log(response)
+    try {
+      const response = await axios.get(`http://13.233.150.43:5000//getAllData?page=${page}`, {
+        headers: {
+          "Authorization": token,
+        }
+      });
       setCardData(response.data)
       setIsLoading(false)
-
-    }).catch((error)=>{
+      setCurrentPage(page);
+      setNumPages(response.data.numPages);
+    } catch (error) {
       console.log(error)
-
-    })
     }
-    fetchData()
-  },[])
+  }
+
+  useEffect(() => {
+    fetchData(currentPage);
+  }, [currentPage]);
 
 if (isLoading) {
   return (
@@ -174,7 +171,8 @@ if (carddata.length === 0) {
   }
 ]
   return (
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"6rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    <>
+    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
 showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
         }
@@ -245,10 +243,30 @@ showReport && <Reportpage post_title={post_title} posted_by={user_handle} source
   </div>
 
 </Dialog>
+    </div>
+    </div>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem' }}>
       
-
-    </div>
-    </div>
+        <Button
+          style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+          variant="contained"
+          disabled={currentPage === 1}
+          onClick={() => fetchData(currentPage - 1)}
+        >
+          Previous
+        </Button>
+        <p style={{paddingLeft:"5px",paddingRight:"5px"}}><b>{currentPage}</b></p>
+        <Button
+          style={{backgroundColor:"lightblue",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+          variant="contained"
+          // style={{ marginLeft: '1rem' }}
+          disabled={currentPage === numPages}
+          onClick={() => fetchData(currentPage + 1)}
+        >
+          Next Page
+        </Button>
+      </div>
+    </>
   )
 }
 
