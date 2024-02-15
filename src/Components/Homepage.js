@@ -64,12 +64,16 @@ const Homepage = () => {
     setShowgraphs(false)
     setShowreports(false)
     setUploadjson(false)
+    setShowflaged(false)
+
 
   }
   const viewGraphFunction = () => {
     setShowgraphs(true)
     setShowTiles(false)
     setShowreports(false)
+    setShowflaged(false)
+
   }
   const uploadjsonFunction = () => {
     setUploadjson(true)
