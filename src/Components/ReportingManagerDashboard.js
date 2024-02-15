@@ -25,6 +25,7 @@ const ReportingManagerDashboard = () => {
 
   const viewFunction =(index)=>{
     setInfo(carddata[index])
+    console.log(carddata[index])
 
     
     setShowReport(true)
@@ -32,7 +33,7 @@ const ReportingManagerDashboard = () => {
     // // setPost_title(dummydata[index].post)
     // setPost_title(dummydata[index].post)
     // setUser_handle(dummydata[index].user_handle)
-    navigate('/reportpage')
+    // navigate('/reportpage')
     // console.log(items)
     // console.log({ state: { data: items } })
     // navigate('/reportpage')

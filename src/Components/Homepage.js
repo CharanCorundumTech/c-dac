@@ -78,42 +78,55 @@ const Homepage = () => {
     setaStopdata(true)
 
   }
+  const rejecteddata =(currentPage)=>{
+    const token = localStorage.getItem('token')
+    axios.get(`http://13.233.150.43:5000/getAllRejectedData?page=${currentPage}`, {
+      headers: {
+        Authorization: token, // Make sure to replace 'Token' with the actual token value
+      }
+    })
+    .then((response)=>{
+      console.log(response)
+      setappData(response.data)
+    // setShowreports(false)
+
+    }).catch((error)=>{
+      console.log(error)
+
+    })
+  }
+
   const [stopdata,setaStopdata]=useState(false)
   const viewReportFunction = () => {
     setShowreports(true)
+    setShowflaged(false)
+
     setaStopdata(true)
     setUploadjson(false)
 
     setShowTiles(false)
     setShowgraphs(false)
-    const token = localStorage.getItem('token')
-    let num=1
-    axios.get(`http://13.233.150.43:5000/getAllRejectedData?page=${num}`, {
-      headers: {
-        Authorization: token, // Make sure to replace 'Token' with the actual token value
-      }
-    })
-    .then((response)=>{
-      console.log(response)
-      setappData(response.data)
-    // setShowreports(false)
-
-    }).catch((error)=>{
-      console.log(error)
-
-    })
+    rejecteddata(currentPage)
+    
 
   }
+
+  
+  const [showflaged,setShowflaged]=useState(false)
   const viewFlaggedFunction = () => {
-    setShowreports(true)
+    setShowflaged(true)
+    setShowreports(false)
     setaStopdata(true)
     setUploadjson(false)
 
     setShowTiles(false)
     setShowgraphs(false)
+    approvedata(currentPage)
+    
+  }
+  const approvedata=(currentPage)=>{
     const token = localStorage.getItem('token')
-    let num=1
-    axios.get(` http://13.233.150.43:5000/getAllApprovedData?page=${num}`, {
+    axios.get(`http://13.233.150.43:5000/getAllApprovedData?page=${currentPage}`, {
       headers: {
         Authorization: token, // Make sure to replace 'Token' with the actual token value
       }
@@ -127,7 +140,6 @@ const Homepage = () => {
       console.log(error)
 
     })
-
   }
   const role=localStorage.getItem('role')
   if(role=='user'){
@@ -158,13 +170,15 @@ const Homepage = () => {
 
   useEffect(() => {
     fetchData(currentPage);
+    approvedata(currentPage)
+    rejecteddata(currentPage)
   }, [currentPage]);
 
 
   return (
     <>
       {
-        showReport === true ? <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} /> :
+        // showReport === true ? <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} /> :
           <div className='main_container'>
             <Navbar />
             <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
@@ -197,9 +211,12 @@ const Homepage = () => {
                     role === 'user' &&  <div className='sidebar_links' onClick={uploadjsonFunction} style={{ backgroundColor: uploadjson ? "#6367f0" : "white",color: uploadjson ? "white" : "black"}}> <DriveFolderUploadIcon /> Upload JSON Data </div>
                   }
                   {
-                  role === 'user' ? <div className='sidebar_links' onClick={viewFlaggedFunction} style={{ backgroundColor: showReports ? "#6367f0" : "white",color: showReports ? "white" : "black" }}> <FlagCircleIcon /> Flagged Reports </div> :
-                  <div className='sidebar_links' onClick={viewReportFunction} style={{ backgroundColor: showReports ? "#6367f0" : "white",color: showReports ? "white" : "black" }}> <FlagCircleIcon /> Rejected Reports </div>
+                    role !=='user' &&   <div className='sidebar_links' onClick={viewReportFunction} style={{ backgroundColor: showReports ? "#6367f0" : "white",color: showReports ? "white" : "black" }}> <FlagCircleIcon /> Rejected Reports </div>
                 }
+                  {
+                  <div className='sidebar_links' onClick={viewFlaggedFunction} style={{ backgroundColor: showflaged ? "#6367f0" : "white",color: showflaged ? "white" : "black" }}> <FlagCircleIcon /> Flagged Reports </div> 
+                  }
+               
                   
                 </div>
                 {/*****************  Sidebarends  *************/}

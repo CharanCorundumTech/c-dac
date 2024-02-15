@@ -16,19 +16,20 @@ const ReviewManager = () => {
   const [open,setopen]=useState(false)
   const [dashboardData,setDashboardData]=useState('')
   const [carddata,setCardData]=useState([])
+  const [info,setInfo]=useState('')
+
 
 
 
 
   const viewFunction =(index)=>{
-    
+    setInfo(carddata[index])
+    console.log(carddata[index])
+
     setShowReport(true)
-    setSource(dummydata[index].source)
-    // setPost_title(dummydata[index].post)
-    setPost_title(dummydata[index].post)
-    setUser_handle(dummydata[index].user_handle)
-    navigate('/reportpage')
-    // console.log(items)
+
+    
+   
     // console.log({ state: { data: items } })
     // navigate('/reportpage')
     // const dataToSend = JSON.stringify(data); 
@@ -177,17 +178,19 @@ if (carddata.length === 0) {
 ]
   return (
     <>
-    <div className='hidescrollbars' style={{backgroundColor:"#000032",marginTop:"9rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
+    <div className='hidescrollbars' style={{backgroundColor:"",marginTop:"2rem",paddingBottom:"1rem",height:"650px",overflow:"scroll"}}>
         {
-showReport && <Reportpage post_title={post_title} posted_by={user_handle} source={source} source_link={"NA"} detailed_report_link={"NA"} people_identified={"NA"} />
+          showReport && <Reportpage info={info} />
+          // showReport && alert("hi")
         }
         {/* <div style={{backgroundColor:"#000032"}}>
         <Button id='close_btn' style={{marginTop:"1rem",marginLeft:"1rem",backgroundColor:"white",color:"black"}}  onClick={()=>{navigate('/')}}>
       Back
     </Button>
         </div> */}
-        <div className='maindata_div' style={{backgroundColor:"#000032",width:"78.2rem"}}>
+        <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem"}}>
       {
+        !showReport &&
          carddata.map((items,index)=>(
           <>
           <div className='cards' id={index}>

@@ -61,18 +61,16 @@ const toggleContent = () => {
 
   return (
     <>
-    <div style={{minHeight:"100vh", padding:"10px",backgroundColor:"#000032"}}>
+    <div style={{minHeight:"90vh", padding:"10px",backgroundColor:"#000032"}}>
       <button className='back_btn' onClick={()=>window.location.reload()}>Close</button>
       <div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
       <h3 style={{color:"white"}}>Report </h3>
 
     <div style={{border:"1px solid black",backgroundColor:"white",padding:"20px",borderRadius:"10px",width:"700px"}}>
     <div style={{fontWeight:"500"}}>
-      <div style={{height:"200px",width:"300px",marginBottom:"10px",backgroundColor:"grey"}}>
+      {/* <div style={{height:"200px",width:"300px",marginBottom:"10px",backgroundColor:"grey"}}>
       <iframe height="200" src={info.info.postLink} frameborder="0" allowfullscreen></iframe>
-        {/* <video src='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D' height="200px" alt='demo_image'/> */}
-
-      </div>
+      </div> */}
       <p><b>POST TITLE : </b>{info.info.postContent}</p>
       <p><b>POSTED BY : </b>{info.info.postOwnerName}</p>
       <p><b>POST OWNER ID : </b>{info.info.postOwnerId}</p>

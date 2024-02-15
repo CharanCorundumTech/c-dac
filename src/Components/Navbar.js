@@ -168,7 +168,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Meity C-DAC
+            Social Media Monitoring
           </Typography>
           <Search>
             <SearchIconWrapper>
