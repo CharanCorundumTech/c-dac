@@ -108,7 +108,7 @@ const toggleContent = () => {
 
     </div>
     <div style={{display:"flex",gap:"20px",fontWeight:"500"}}>
-     <p><b>VIOLATIONS : </b> -</p>
+     <p><b>VIOLATIONS : </b> {info.info.reason}</p>
      {/* <div style={{display:"flex",gap:"20px",marginBottom:"10px"}}> 
       <button className='report_btns'>PROFANITY</button>
       <button className='report_btns'>VIOLENCE</button>
