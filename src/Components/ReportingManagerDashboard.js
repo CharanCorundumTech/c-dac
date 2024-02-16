@@ -109,11 +109,34 @@ if (isLoading) {
 
 if (carddata.length === 0) {
   return (
-    // <div>
+    <div>
     <div className='loader-container' style={{ marginTop: "0rem",display:'flex',justifyContent:"center",alignItems:"center",height:"300px",width:"80rem",backgroundColor:"" }}>
 
       <h3 style={{ marginTop: "5rem" }}>No data to show</h3>
     </div>
+    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem' }}>
+      
+      <Button
+        style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+        variant="contained"
+        disabled={currentPage === -1}
+        onClick={() => fetchData(currentPage - 1)}
+      >
+        Previous
+      </Button>
+      <p style={{paddingLeft:"5px",paddingRight:"5px"}}><b>{currentPage}</b></p>
+      <Button
+        style={{backgroundColor:"lightblue",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
+        variant="contained"
+        // style={{ marginLeft: '1rem' }}
+        disabled={currentPage === numPages}
+        onClick={() => fetchData(currentPage)}
+      >
+        Next Page
+      </Button>
+    </div>
+    </div>
+    
   );
 }
 
@@ -179,7 +202,7 @@ showReport && <Reportpage info={info} />
 
 
 {
-  showReport &&
+   !showReport &&
         appdata.map((items,index)=>(
           <>
           <div className='cards' style={{minHeight:'50vh'}} id={index}>
@@ -258,7 +281,7 @@ showReport && <Reportpage info={info} />
     {
       carddata.length >0 &&
 
-    <div style={{ display: 'flex', justifyContent: 'center',backgroundColor:"pink", marginTop: '0.3rem',position:"sticky" }}>
+    <div style={{ display: 'flex', justifyContent: 'center',backgroundColor:"", marginTop: '0.3rem',position:"sticky" }}>
       
       <Button
         style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}

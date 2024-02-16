@@ -135,10 +135,14 @@ const role=localStorage.getItem('role')
         <h5>Select Voilation Type :</h5>
         <select style={{width:"150px",height:"30px",borderRadius:"10px"}}  onChange={(e)=>{selecthandle(e)}}>
             
-            <option disabled>select the reason</option>
-            <option value='voilation 1'>voilation 1</option>
-            <option value='voilation 2'>voilation 2</option>
-            <option value='voilation 3'>voilation 3</option>
+        <option disabled>select the reason</option>
+            <option value='Not Yours'>Not Yours</option>
+            <option value='Prohibited content: explicit, harmful, divisive'>Prohibited content: explicit, harmful, divisive</option>
+            <option value='Child-harmful'>Child-harmful</option>
+            <option value='Misinformation Deception'>5.Misinformation Deception</option>
+            <option value='Impersonation'>Impersonation</option>
+            <option value='Rights infringement.'>National threat</option>
+            <option value='Malicious code'>Malicious code</option>
         </select>
 
         </div>

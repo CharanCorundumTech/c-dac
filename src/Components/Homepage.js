@@ -81,11 +81,10 @@ const Homepage = () => {
   }
   const uploadjsonFunction = () => {
     setUploadjson(true)
+    setShowflaged(false)
     setShowTiles(false)
     setShowreports(false)
     setaStopdata(true)
-    setShowflaged(false)
-
 
   }
   const rejecteddata =(currentPage)=>{
@@ -98,6 +97,8 @@ const Homepage = () => {
     .then((response)=>{
       console.log(response)
       setappData(response.data)
+      setCurrentPage(currentPage);
+      setNumPages(response.data.numPages);
     // setShowreports(false)
 
     }).catch((error)=>{
@@ -183,6 +184,8 @@ const Homepage = () => {
     approvedata(currentPage)
     rejecteddata(currentPage)
   }, [currentPage]);
+
+  
   const downloadFunction =(index)=>{
 
     const generatePDF = (newjson) => {
@@ -264,6 +267,22 @@ const Homepage = () => {
    
   
   }
+
+  // const downloadFunction =(index)=>{
+  //   const postID=appdata[index].postId
+  //   const token = localStorage.getItem('token')
+  //   axios.get(`http://13.233.150.43:5000/pdfDownload?postId=${postID}`, {
+  //     headers: {
+  //       "Authorization": token,
+  //     }
+  //   }).then((response) => {
+  //     console.log(response.data)
+  //     // setAnalyticsData(response.data)
+  //   }).catch((error) => {
+  //     alert(error)
+  //   })
+  // }
+
   const [analyticsData, setAnalyticsData] = useState([])
 
   useEffect(() => {
@@ -454,6 +473,8 @@ const Homepage = () => {
 
           ))
       }
+      {
+        // appdata.length ===0 ? "":
       <div style={{ display: 'flex',width:"100%", justifyContent: 'center', marginTop: '0.3rem' }}>
         <Button
           style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
@@ -474,6 +495,8 @@ const Homepage = () => {
           Next Page
         </Button>
       </div>
+      }
+
                     </div>
                     
                   }

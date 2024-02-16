@@ -168,7 +168,7 @@ export default function Navbar() {
             component="div"
             sx={{ display: { xs: 'none', sm: 'block' } }}
           >
-            Social Media Monitoring
+            Optico - Social Media Monitoring System
           </Typography>
           <Search>
             <SearchIconWrapper>

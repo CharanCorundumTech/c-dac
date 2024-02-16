@@ -372,6 +372,8 @@ showReport && <Reportpage info={info} />
 
     </div>
     </div>
+    {
+      carddata.length !== 0 ? <h1>nothing</h1> :
     <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem' }}>
       
       <Button
@@ -393,6 +395,7 @@ showReport && <Reportpage info={info} />
         Next Page
       </Button>
     </div>
+}
     </>
   )
 }

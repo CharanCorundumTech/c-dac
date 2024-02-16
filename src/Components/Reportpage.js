@@ -61,7 +61,7 @@ const toggleContent = () => {
 
   return (
     <>
-    <div style={{minHeight:"90vh", padding:"10px",backgroundColor:"#000032"}}>
+    <div style={{minHeight:"100%",margin:"0px", padding:"10px",backgroundColor:"#000032"}}>
       <button className='back_btn' onClick={()=>window.location.reload()}>Close</button>
       <div style={{width:"100%",height:"100%",display:"flex",flexDirection:"column",alignItems:"center",justifyContent:"center"}}>
       <h3 style={{color:"white"}}>Report </h3>
@@ -97,8 +97,7 @@ const toggleContent = () => {
       <p><b>SHARES : </b>{info.info.interactions.shares}</p>
       <p><b>VIEWS : </b>{info.info.interactions.views}</p>
       </div>
-      <p><b>SPEAKERS DETECTED : </b>{speakers}</p>
-      <p><b>FACE DETECTED : </b>{speakers}</p>
+      
       {/* <p><b style={{color:"red"}}>TRANSCRIPTION : </b><span style={{color:"#052a44",fontWeight:"bold"}}>{transcription}</span></p> */}
       <p><b style={{color:"red"}}>TRANSCRIPTION : </b><span style={{color:"#052a44",fontWeight:"bold"}}>
       Not Available
