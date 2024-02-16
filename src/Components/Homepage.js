@@ -185,13 +185,14 @@ const Homepage = () => {
     rejecteddata(currentPage)
   }, [currentPage]);
 
-  
+
   const downloadFunction =(index)=>{
 
     const generatePDF = (newjson) => {
       const content = `
         <div style={{margin:"20px"}}>
-          <h2>Detailed Report</h2>
+          <b>Suspicious Transactions Report</b><br>
+          <p></p>
           <div style={{margin:"10px"}}>
             <table border="1">
               <tbody>
@@ -324,8 +325,8 @@ const Homepage = () => {
                   height: "94.5vh", width: "250px",
                   paddingTop:"0.5rem"
                 }}>
-                  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-              <h4 style={{ marginLeft: "10px",color:'Darkblue' }}>Dashboard Panel</h4> <WidgetsIcon />
+                  <div style={{ display: "flex", alignItems: "center",justifyContent:"center", gap: "10px" }}>
+              <h5 style={{ marginLeft: "10px",color:'Darkblue',paddingTop:"5px" }}>Dashboard Panel</h5> <WidgetsIcon />
             </div>
             <hr style={{marginTop:"-0.5rem"}}/>
                   {
@@ -447,7 +448,7 @@ const Homepage = () => {
               <button style={{textAlign:'left'}} className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
               {
             
-            (role === 'approvingManager' && showflaged) &&   <button className='card_btns_flag'  style={{marginLeft:"1rem"}} onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+            (role === 'approvingManager' && showflaged) &&   <button className='card_btns_flag'  style={{marginLeft:"1rem"}} onClick={()=>{downloadFunction(index)}}><b>Download STR Pdf</b></button>
              
             }
               </div>
