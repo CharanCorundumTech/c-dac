@@ -410,8 +410,9 @@ const Homepage = () => {
                    showTiles  && role==='approvingManager' && <div> <ApprovalManagerDashboard/> </div>
                   }
                   {
-                    (showReports || showflaged) && <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem",overflow:"scroll"}}>
+                    (showflaged) && <div className='maindata_div' style={{backgroundColor:"",width:"78.2rem",overflow:"scroll"}}>
                       {
+
         appdata.map((items,index)=>(
           <>
           <div className='cards' style={{minHeight:'50vh',display:"flex",justifyContent:"space-between",width:"380px"}} id={index}>
@@ -421,7 +422,7 @@ const Homepage = () => {
             <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
 
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
-            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.reason}</p>
+            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.reason.length > 30 ? items['reason'].substring(0, 26) + '...' : items['reason']}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
             <p style={{fontWeight:"500"}}><b>Reason for Flag : </b>
             {items.comments.map((items,index)=>(
