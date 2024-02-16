@@ -25,6 +25,12 @@
     align-items: center;
     justify-content: center;
 }
+.login-caption{
+    font-family: 'Poppins';
+    background-image: linear-gradient(to right, red, blue);
+    -webkit-background-clip: text;
+     color: transparent;
+}
 .left-side{
     height:100vh;
     display:flex;
@@ -47,8 +53,8 @@
 
 }
 .login-btn:hover{
-    color:white;
-    background-color: rgb(51, 54, 57);
+    color:black;
+    background-color: aliceblue;
     text-shadow: none;
 }
 .input-tags{
@@ -61,11 +67,6 @@ label{
     font-size: larger;
     font-weight: bold;
     text-align: left;
-}
-#signup:hover{
-    cursor: pointer;
-    color: #3498db;
-
 }
 input{
     border-radius: 9px;
@@ -134,15 +135,6 @@ color:grey;
     100% { transform: rotate(360deg); }
   }
 
-  #forgotpss{
-    margin-top: 5px;
-    color: red;
-  }
-  #forgotpss:hover{
-    cursor: pointer;
-    color: black;
-
-  }
 
   @media (max-width: 600px){
     .app-logo{

@@ -200,6 +200,17 @@ if (carddata.length === 0) {
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
             <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
+            <p style={{fontWeight:"500"}}><b>COMMENTS : </b>
+            {items.comments.map((items,index)=>(
+              <>
+              <div style={{display:"flex",flexDirection:"",width:"100%",backgroundColor:"",}}>
+                <div style={{marginLeft:"1.5rem"}}> >> {items.user1}
+                {items.rep}
+                {items.rev}</div>
+              </div>
+              </>
+
+            ))}</p>
 
 
 

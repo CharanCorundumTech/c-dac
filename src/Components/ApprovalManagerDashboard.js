@@ -311,8 +311,19 @@ showReport && <Reportpage info={info} />
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
             <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
-            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
+            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.reason}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
+            {/* <p style={{fontWeight:"500"}}><b>Reason for Flag : </b>
+            {items.comments.map((items,index)=>(
+              <>
+              <div style={{display:"flex",flexDirection:"",width:"100%",backgroundColor:"",}}>
+                <div style={{marginLeft:"1.5rem"}}>{items.user1}
+                {items.rep}
+                {items.rev}</div>
+              </div>
+              </>
+
+            ))}</p> */}
 
             <div style={{display:"flex",justifyContent:"space-between",gap:"10px",marginRight:"20px"}}>
       {/* <p><b>SOURCE LINK : </b><a href='https://www.youtube.com/watch?v=JWIFhZsPsRw&pp=ygUdbmFyZW5kcmEgbW9kaSBsb2tzYWJoYSBzcGVlY2g%3D'> Post</a></p> */}
@@ -320,7 +331,7 @@ showReport && <Reportpage info={info} />
             <button className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
             <button className='card_btns' onClick={() => viewFunction(index)}><b>View</b></button>
             <button className='card_btns_flag' onClick={()=>{flagFunction(index)}}><b>Flag For Investigation</b></button>
-            <button className='card_btns_flag'  onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+            {/* <button className='card_btns_flag'  onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button> */}
 
             </div>
 

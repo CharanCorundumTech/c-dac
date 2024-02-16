@@ -84,6 +84,8 @@ const Homepage = () => {
     setShowTiles(false)
     setShowreports(false)
     setaStopdata(true)
+    setShowflaged(false)
+
 
   }
   const rejecteddata =(currentPage)=>{
@@ -262,6 +264,24 @@ const Homepage = () => {
    
   
   }
+  const [analyticsData, setAnalyticsData] = useState([])
+
+  useEffect(() => {
+    if (role!=='user'){
+
+    const token = localStorage.getItem('token')
+    axios.get(`http://13.233.150.43:5000/getAnalytics`, {
+      headers: {
+        "Authorization": token,
+      }
+    }).then((response) => {
+      setAnalyticsData(response.data)
+    }).catch((error) => {
+      alert(error)
+    })
+  }
+  }, [])
+  console.log(analyticsData)
 
   return (
     <>
@@ -316,12 +336,37 @@ const Homepage = () => {
                 {
                   showgraphs && role !=='user' &&
                   <>
-                    <div style={{ backgroundColor: "", width: "800px" }} >
-                      <Graph />
-                    </div>
-                    <div style={{ backgroundColor: "" }} >
-                      <Piechart />
-                    </div>
+                  <div style={{display:'flex', flexWrap:'wrap', flexDirection:'row',gap:'7rem', width: "100%", boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', height: 'auto', marginLeft: '1rem', borderRadius: '10px', display: 'flex', gap: '2rem' }}>
+                        <div style={{boxShadow:'rgba(0, 0, 0, 0.24) 0px 3px 8px'}}>
+                        <Graph data={analyticsData} />
+                        </div>
+                        
+                        <div style={{boxShadow:'rgba(0, 0, 0, 0.24) 0px 3px 8px', alignItems:'center', display:'flex', justifyContent:'center'}}>
+                        <Piechart data={analyticsData} /> 
+
+                        </div>
+                        <div style={{ display: 'grid', fontSize: '1rem', gridTemplateColumns: 'auto 1fr', gap: '5px', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px', padding: '2rem', fontFamily: 'Poppins', fontWeight: 'bold',  }}>
+
+                          <div>
+                            <p>TOTAL:</p>
+                            <p>COMPLETED:</p>
+                            <p>PENDING:</p>
+                            <p>REJECTED:</p>
+                            <p>Approved</p>
+                          </div>
+                          <div>
+                            <p style={{ color: 'grey' }}><span>{analyticsData.total}</span></p>
+                            <p style={{ color: 'grey' }}><span>{analyticsData.completed}</span></p>
+                            <p style={{ color: 'grey' }}><span>{analyticsData.pending}</span></p>
+                            <p style={{ color: 'grey' }}><span>{analyticsData.rejected}</span></p>
+                            <p style={{ color: 'grey' }}><span>{analyticsData.approved}</span></p>
+
+                          </div>
+                        </div>
+
+                        
+
+                      </div>
                   </>
                 }
                 {
@@ -356,8 +401,19 @@ const Homepage = () => {
             <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
 
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
-            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.Violations}</p>
+            <p style={{fontWeight:"500"}}><b>VIOLATIONS : </b>{items.reason}</p>
             <p style={{fontWeight:"500"}}><b>RISK SCORE : </b>{items.sentiment.score}</p>
+            <p style={{fontWeight:"500"}}><b>Reason for Flag : </b>
+            {items.comments.map((items,index)=>(
+              <>
+              <div style={{display:"flex",flexDirection:"",width:"100%",backgroundColor:"",}}>
+                <div style={{marginLeft:"1.5rem"}}>{items.user1}
+                {items.rep}
+                {items.rev}</div>
+              </div>
+              </>
+
+            ))}</p>
 
             {/* <p style={{fontWeight:"500"}}>POST:<b>{items.original_filename}</b></p>
             <p style={{fontWeight:"500"}}>SOURCE:<b>Youtube</b></p>
@@ -372,7 +428,7 @@ const Homepage = () => {
               <button style={{textAlign:'left'}} className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
               {
             
-            role === 'approvingManager' &&   <button className='card_btns_flag'  style={{marginLeft:"1rem"}} onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+            (role === 'approvingManager' && showflaged) &&   <button className='card_btns_flag'  style={{marginLeft:"1rem"}} onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
              
             }
               </div>
