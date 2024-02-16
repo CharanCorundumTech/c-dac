@@ -19,6 +19,10 @@ import ApprovalManagerDashboard from './ApprovalManagerDashboard'
 import ReportingManagerDashboard from './ReportingManagerDashboard'
 import ReviewManager from './ReviewManager'
 import UploadJson from './UploadJson'
+import { jsPDF } from 'jspdf';
+import 'jspdf-autotable';
+import { Document, Page, Text, View, StyleSheet } from '@react-pdf/renderer';
+import html2pdf from 'html2pdf.js';
 
 const Homepage = () => {
   const navigate = useNavigate()
@@ -177,7 +181,87 @@ const Homepage = () => {
     approvedata(currentPage)
     rejecteddata(currentPage)
   }, [currentPage]);
+  const downloadFunction =(index)=>{
 
+    const generatePDF = (newjson) => {
+      const content = `
+        <div style={{margin:"20px"}}>
+          <h2>Detailed Report</h2>
+          <div style={{margin:"10px"}}>
+            <table border="1">
+              <tbody>
+                ${Object.entries(newjson)
+                  .map(([key, value]) => `
+                    <tr>
+                      <td><b>${key}</b></td>
+                      <td>${value}</td>
+                    </tr>
+                  `)
+                  .join('')}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      `;
+    
+      html2pdf(content, {
+        filename: 'report.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { dpi: 192, letterRendering: true },
+        jsPDF: { unit: 'pt', format: 'a4', orientation: 'portrait' }
+      });
+    };
+  
+  
+  
+  
+      const token = localStorage.getItem('token')
+      try {
+        console.log(appdata[index])
+        const json=appdata[index]
+        const newjson={
+          "_id":json._id,
+          "dateTime":json.dateTime,
+          "postContent":json.postContent,
+          "platform":json.platform,
+          "postId":json.postId,
+          "postLink":json.postLink,
+          "postOwnerId":json.postOwnerId,
+          "postOwnerLink":json.postOwnerLink,
+          "postOwnerName":json.postOwnerName,
+          "postOwnerType":json.postOwnerType,
+          "postType":json.postType,
+          "reason":json.reason,
+          "screenshotLink":json.screenshotLink,
+          "comments":json.interactions.comments,
+          "likes":json.interactions.likes,
+          "rekoos":json.interactions.rekoos,
+          "retweets":json.interactions.retweets,
+          "shares":json.interactions.shares,
+          "views":json.interactions.views,
+          "targetData":json.targetData,
+          "targetId":json.targetId,
+          "sentiment":json.sentiment.label,
+          "isShortlisted":json.isShortlisted,
+          "tags":json.tags,
+        }
+        generatePDF(newjson)
+      //   const formattedJson = JSON.stringify(json, null, 4);
+      //   console.log(formattedJson)
+  
+      // // Create a new jsPDF instance
+      // const doc = new jsPDF();
+      // doc.text(20, 20, formattedJson);
+  
+      // // Save the PDF
+      // doc.save("output.pdf");
+    
+      } catch (error) {
+        console.error('Error downloading PDF:', error);
+      }
+   
+  
+  }
 
   return (
     <>
@@ -286,7 +370,11 @@ const Homepage = () => {
             <div style={{display:'flex', flexDirection:'column', gap:'0.4rem'}}>
               <div>
               <button style={{textAlign:'left'}} className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
-
+              {
+            
+            role === 'approvingManager' &&   <button className='card_btns_flag'  style={{marginLeft:"1rem"}} onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+             
+            }
               </div>
               <b style={{color:"green"}}>Status</b>
             { items.Status===1 && <p style={{backgroundColor:'red',padding:'0.3rem', borderRadius:'6px', fontWeight:'bold'}}>FLAGGED BY USER</p>}
@@ -296,11 +384,15 @@ const Homepage = () => {
             { items.Status===-2 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY REPORTING MANAGER</p>}
             { items.Status===-3 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY REVIEWING MANAGER</p>}
             { items.Status===-4 && <p style={{backgroundColor:'orange',padding:'0.3rem',borderRadius:'6px',fontWeight:'bold'}}>REJECTED BY APPROVING MANAGER</p>}
+             
             </div>
+           
             {/* <button className='card_btns' onClick={() => viewFunction(index)}><b>View</b></button>
             <button className='card_btns_flag' onClick={()=>{flagFunction(index)}}><b>Flag For Investigation</b></button> */}
             </div>
+            
           </div>
+          
           
           </>
 

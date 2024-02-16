@@ -100,13 +100,13 @@ const Signin = () => {
     <div style={{position: "absolute",zIndex: "",backgroundColor:"",height:"100vh",width:"100%",display:"flex",gap:"20px",justifyContent:"center",alignItems:"center"}}>
 
       <div style={{ backgroundColor:"", marginLeft:""}}>
-        <h4 style={{color:"#020645",fontWeight:"700"}}>C-DAC(Centre for Development of Advanced Computing)</h4>
+        <h4 style={{color:"#020645",fontWeight:"700"}}>Social Media Monitoring</h4>
       <img className='app-logo' style={{ }} height="400px" width="700px" src={eaglelogo} alt='leftside_pic'></img>
       </div>
     
-    <div style={{width: '493px',height:"70%",padding:"0px",display:"flex",flexDirection:"column",justifyContent:"center", background: 'white', boxShadosw: '0px 3px 3px rgba(0, 0, 0, 0.25)', borderRadius:"22px", borssder: '1px #BCBCBC solid'}} >
+    <div style={{width: '493px',height:"70%",padding:"0px",display:"flex",flexDirection:"column",justifyContent:"center", background: 'white', boxShadosw: '0px 3px 3px rgba(0, 0, 0, 0.25)', borderRadius:"22px", borsder: '1px #BCBCBC solid'}} >
     <div style={{display:"flex",alignItems:"center",justifyContent:"space-between",marginRight:"50px",backgroundColor:""}}><h2 className='login_h2 input-tags'>Login </h2> 
-    <h4 id='signup' onClick={()=>{navigate('/signup')}}><b>Sign up</b></h4>
+    {/* <h4 id='signup' onClick={()=>{navigate('/signup')}}><b>Sign up</b></h4> */}
     </div>
     <div style={{display:"flex",flexDirection:"column",gap:"30px",marginTop:"10px"}}>
 

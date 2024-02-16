@@ -35,11 +35,15 @@ const role=localStorage.getItem('role')
                         console.log(response)
                         if (response.status ===200){
                             alert("Flagged this Data")
+                        window.location.reload()
+
                         }
                         // setCardData(response.data)
                       }).catch((error)=>{
                         if (error.response.status ===409){
                             alert("Already Flagged")
+                        window.location.reload()
+
                         }
                   
                       })
@@ -62,11 +66,15 @@ const role=localStorage.getItem('role')
                         console.log(response)
                         if (response.status ===200){
                             alert("Flagged this Data")
+                        window.location.reload()
+
                         }
                         // setCardData(response.data)
                       }).catch((error)=>{
                         if (error.response.status ===409){
                             alert("Already Flagged")
+                        window.location.reload()
+
                         }
                   
                   })
@@ -101,11 +109,14 @@ const role=localStorage.getItem('role')
                     console.log(response)
                     if (response.status ===200){
                         alert("Rejected this Data")
+                        window.location.reload()
+
                     }
                     // setCardData(response.data)
                   }).catch((error)=>{
                     if (error.response.status ===409){
                         alert("Already Flagged")
+                        window.location.reload()
                     }
               
               })

@@ -286,6 +286,8 @@ const downloadFunction =(index)=>{
       "Link": "https://youtu.be/UKrwfRHUGMw"
   }
 ]
+const role=localStorage.getItem('role')
+console.log(role)
   return (
     <>
     
@@ -304,7 +306,7 @@ showReport && <Reportpage info={info} />
         !showReport && 
         carddata.map((items,index)=>(
           <>
-          <div className='cards' id={index}>
+          <div className='cards_appmngr' id={index}>
             <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
             <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
@@ -317,8 +319,11 @@ showReport && <Reportpage info={info} />
 
             <button className='upload_btn'><b><a id='hyperlink' href={items.postLink} target="_blank" rel="noopener noreferrer"> Source Link</a></b></button>
             <button className='card_btns' onClick={() => viewFunction(index)}><b>View</b></button>
-            <button className='card_btns_flag' onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+            <button className='card_btns_flag' onClick={()=>{flagFunction(index)}}><b>Flag For Investigation</b></button>
+            <button className='card_btns_flag'  onClick={()=>{downloadFunction(index)}}><b>Download Pdf</b></button>
+
             </div>
+
 
           </div>
           </>

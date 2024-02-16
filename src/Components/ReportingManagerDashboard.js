@@ -135,7 +135,7 @@ showReport && <Reportpage info={info} />
         carddata.map((items,index)=>(
           <>
           <div className='cards' id={index}>
-            <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 26) + '...' : items['postContent']}</p>
+            <p style={{fontWeight:"500"}}><b>POST : </b>{items['postContent'].length > 30 ? items['postContent'].substring(0, 20) + '...' : items['postContent']}</p>
             <p style={{fontWeight:"500"}}><b>SOURCE : </b>{items.platform}</p>
             <p style={{fontWeight:"500"}}><b>USRER HANDLE : </b>{items.postOwnerName.length > 30 ? items['postOwnerName'].substring(0, 24) + '...' : items['postOwnerName']}</p>
             <p style={{fontWeight:"500"}}><b>CONTAINS VIDEO : </b>{items.ContainsVideo}</p>
@@ -232,7 +232,10 @@ showReport && <Reportpage info={info} />
     </div>
    
     </div>
-    <div style={{ display: 'flex', justifyContent: 'center', marginTop: '0.3rem',position:"sticky" }}>
+    {
+      carddata.length >0 &&
+
+    <div style={{ display: 'flex', justifyContent: 'center',backgroundColor:"pink", marginTop: '0.3rem',position:"sticky" }}>
       
       <Button
         style={{backgroundColor:"lightblue",color:"white",height:"20px",borderRadius:"20px",display:"flex",alignItems:"center"}}
@@ -253,6 +256,8 @@ showReport && <Reportpage info={info} />
         Next Page
       </Button>
     </div>
+    }
+
    </>
   )
 }

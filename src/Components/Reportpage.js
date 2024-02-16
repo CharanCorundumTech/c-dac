@@ -81,7 +81,7 @@ const toggleContent = () => {
       {isContentVisible && (
       <div style={{marginLeft:"20px",backgroundColor:"lightgrey",padding:"10px"}}>
       <p><b>FILE ID : </b>{info.info.postId}</p>
-      <p><b>FILE NAME : </b>{originalFilename}</p>
+      <p><b>FOST OWNER NAME : </b>{info.info.postOwnerName}</p>
       <p><b>FILE TYPE : </b>{info.info.postType}</p>
       {/* <p><b>FILE PATH :</b>{path}</p> */}
       <p><b>UPLOAD TIME : </b>{info.info.dateTime}</p>
