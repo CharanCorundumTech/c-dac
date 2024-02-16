@@ -80,9 +80,9 @@ const toggleContent = () => {
       <p><b><u>DETAILED REPORT</u></b><button onClick={toggleContent} style={{border:"none",backgroundColor:"#16437e",color:"white",borderRadius:"5px",marginLeft:"10px"}}><b>{isContentVisible ? 'Hide' : 'Show'}</b></button></p>
       {isContentVisible && (
       <div style={{marginLeft:"20px",backgroundColor:"lightgrey",padding:"10px"}}>
-      <p><b>FILE ID : </b>{info.info.postId}</p>
-      <p><b>FOST OWNER NAME : </b>{info.info.postOwnerName}</p>
-      <p><b>FILE TYPE : </b>{info.info.postType}</p>
+      <p><b>POST ID : </b>{info.info.postId}</p>
+      <p><b>POST OWNER NAME : </b>{info.info.postOwnerName}</p>
+      <p><b>POST TYPE : </b>{info.info.postType}</p>
       {/* <p><b>FILE PATH :</b>{path}</p> */}
       <p><b>UPLOAD TIME : </b>{info.info.dateTime}</p>
       {/* <p><b>IS SORTLISTED : </b>{formatted_date}</p> */}
