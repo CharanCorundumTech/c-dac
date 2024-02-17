@@ -191,7 +191,7 @@ const Homepage = () => {
     const generatePDF = (newjson) => {
       const content = `
         <div style={{margin:"20px"}}>
-          <b>Suspicious Tweet Record</b><br>
+          <b>Suspicious Thread Record </b><br>
           <p></p>
           <div style={{margin:"10px"}}>
             <table border="1">
